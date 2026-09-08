@@ -3,7 +3,7 @@ import { FoodCategory } from "../../schemas/category-schema.js";
 
 export const foodCategoryControllerCreate = async (request, response) => {
   try {
-    const { categoryName, createdAt, updatedAt } = request.body;
+    const { categoryName } = request.body;
     const category = await FoodCategory.create({
       categoryName,
     });
@@ -20,7 +20,7 @@ export const foodCategoryControllerCreate = async (request, response) => {
 };
 export const foodCategoryControllerRead = async (request, response) => {
   try {
-    const { categoryName, createdAt, updatedAt } = request.body;
+    const { categoryName } = request.body;
     const category = await FoodCategory.findOne({
       categoryName: categoryName,
     });
@@ -35,36 +35,50 @@ export const foodCategoryControllerRead = async (request, response) => {
     response.status(500).json({ message: "Internal Server Error", error: err });
   }
 };
+
 export const foodCategoryControllerUpdate = async (request, response) => {
   try {
-    const { categoryName } = request.body;
-    const updatedCategory = await FoodCategory.findByIdAndUpdate({
-      categoryName: categoryName,
-    });
+    const { id, categoryName } = request.body;
+    const updatedCategory = await FoodCategory.findByIdAndUpdate(
+      id,
+      {
+        categoryName: categoryName,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!updatedCategory) {
+      return response.status(404).json({ message: "food category not found" });
+    }
+
     response.json({
       message: "Food category updated successfully",
-      category: category,
+      category: updatedCategory,
     });
+
     response
-      .status(201)
-      .json({ message: "Category Created", category: "category" });
+      .status(200)
+      .json({ message: "Updated", category: updatedCategory });
   } catch (err) {
     response.status(500).json({ message: "Internal Server Error", error: err });
   }
 };
 export const foodCategoryControllerDelete = async (request, response) => {
   try {
-    const { categoryName } = request.body;
-    const category = await FoodCategory.findByIdAndDelete({
-      categoryName: categoryName,
-    });
+    const { id } = request.body;
+    const delCategory = await FoodCategory.findByIdAndDelete(id);
+    if (!delCategory) {
+      return response.status(404).json({ message: "food category not found" });
+    }
     response.json({
       message: "Food category deleted successfully",
-      category: category,
+      category: delCategory,
     });
     response
       .status(201)
-      .json({ message: "Category Created", category: "category" });
+      .json({ message: "Category Deleted", category: delCategory });
   } catch (err) {
     response.status(500).json({ message: "Internal Server Error", error: err });
   }

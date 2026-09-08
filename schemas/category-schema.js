@@ -7,5 +7,4 @@ const FoodCategorySchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
 export const FoodCategory = mongoose.model("FoodCategory", FoodCategorySchema);
