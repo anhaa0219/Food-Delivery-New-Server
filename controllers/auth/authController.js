@@ -9,7 +9,7 @@ export const SignUpController = async (request, response) => {
       message1: "user created ",
       user: user,
     });
-    response.status(201).json({ message: "User Created", error: err });
+    response.status(201).json({ message: "User Created", user: user });
   } catch (err) {
     response.status(500).json({ message: "Internal Server Error", error: err });
   }
