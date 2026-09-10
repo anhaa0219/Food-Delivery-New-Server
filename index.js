@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { connectDB } from "./connectDB.js";
 import authRouter from "./router/auth/auth.js";
 import foodCategoryRouter from "./router/foodCategory/foodCategory.js";
+import dishesRouter from "./router/dishes/dishes.js";
 import cors from "cors";
 
 const app = express();
@@ -13,7 +14,7 @@ connectDB();
 
 app.use("/auth", authRouter);
 app.use("/foodCategory", foodCategoryRouter);
-
+app.use("/dishes", dishesRouter);
 app.listen(PORT, () => {
   console.log(`Hello world from server ${PORT}`);
 });
