@@ -1,5 +1,6 @@
 import express from "express";
 import { FoodCategory } from "../../schemas/category-schema.js";
+import { Dishes } from "../../schemas/dishes-schema.js";
 
 export const foodCategoryControllerCreate = async (request, response) => {
   try {
@@ -18,13 +19,27 @@ export const foodCategoryControllerCreate = async (request, response) => {
 export const foodCategoryControllerReadAll = async (request, response) => {
   try {
     const category = await FoodCategory.find();
+
+    const dishesForEachCategory = await Promise.all(
+      category.map(async (cat) => {
+        const dishesCount = await Dishes.countDocuments({ category: cat._id });
+
+        return {
+          ...cat.toObject(),
+          dishesCount,
+        };
+      }),
+    );
+
     response.status(200).json({
       message: "Food category read successfully",
-      category: category,
+      category: dishesForEachCategory,
     });
   } catch (err) {
-    console.log(err);
-    response.status(500).json({ message: "Internal Server Error", error: err });
+    console.error(err);
+    response
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
   }
 };
 export const foodCategoryControllerRead = async (request, response) => {

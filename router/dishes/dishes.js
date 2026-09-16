@@ -6,10 +6,12 @@ import {
   dishesControllerUpdate,
   dishesControllerDelete,
 } from "../../controllers/dishes/dishesController.js";
+
 const router = express.Router();
 
 router.post("/post", dishesControllerCreate);
 router.get("/get", dishesControllerReadAll);
-router.put("/put", dishesControllerUpdate);
-router.delete("/delete", dishesControllerDelete);
+router.put("/:id", dishesControllerUpdate);
+router.delete("/:id", dishesControllerDelete);
+
 export default router;

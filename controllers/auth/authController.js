@@ -14,10 +14,6 @@ export const SignUpController = async (request, response) => {
     const { email, password } = request.body;
     const hashedPassword = await bcrypt.hash(password, SALT_ROUND);
     const user = await User.create({ email, password: hashedPassword });
-    response.json({
-      message1: "user created ",
-      user: user,
-    });
     const token = signAuthToken(user);
     response
       .status(201)
