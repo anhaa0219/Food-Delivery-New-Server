@@ -85,10 +85,9 @@ export const foodCategoryControllerUpdate = async (request, response) => {
 };
 export const foodCategoryControllerDelete = async (request, response) => {
   try {
-    console.log("this is getting called");
-    console.log(request.body);
+   
     const { id } = request.body;
-    console.log(id);
+   
     const delCategory = await FoodCategory.findByIdAndDelete(id);
     if (!delCategory) {
       return response.status(404).json({ message: "food category not found" });

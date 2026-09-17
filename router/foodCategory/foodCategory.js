@@ -14,6 +14,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/post", requireToken, requireAdmin, foodCategoryControllerCreate);
 router.get("/get", foodCategoryControllerReadAll);
-router.put("/put", foodCategoryControllerUpdate);
-router.delete("/delete", foodCategoryControllerDelete);
+router.put("/put", requireToken, requireAdmin,foodCategoryControllerUpdate);
+router.delete("/delete",requireToken, requireAdmin, foodCategoryControllerDelete);
 export default router;

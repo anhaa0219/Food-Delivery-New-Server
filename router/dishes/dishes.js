@@ -1,4 +1,6 @@
 import express from "express";
+import { requireToken } from "../../middleware/require-token.js";
+import { requireAdmin } from "../../middleware/require-admin.js";
 import { Dishes } from "../../schemas/dishes-schema.js";
 import {
   dishesControllerCreate,
@@ -9,9 +11,9 @@ import {
 
 const router = express.Router();
 
-router.post("/post", dishesControllerCreate);
+router.post("/post", requireToken ,requireAdmin,dishesControllerCreate);
 router.get("/get", dishesControllerReadAll);
-router.put("/:id", dishesControllerUpdate);
-router.delete("/:id", dishesControllerDelete);
+router.put("/:id",requireToken ,requireAdmin, dishesControllerUpdate);
+router.delete("/:id",requireToken ,requireAdmin, dishesControllerDelete);
 
 export default router;
