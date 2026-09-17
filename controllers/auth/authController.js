@@ -3,11 +3,15 @@ import { User } from "../../schemas/user-schema.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const SALT_ROUND = 10;
-const JWT_SECRET = "testing";
+const JWT_SECRET = process.env.JWT_SECRET;
 const signAuthToken = (user) => {
-  return jwt.sign({ email: user.email, password: user.password }, JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  return jwt.sign(
+    { userId: user._id, email: user.email, role: user.role },
+    JWT_SECRET,
+    {
+      expiresIn: "1d",
+    },
+  );
 };
 export const SignUpController = async (request, response) => {
   try {
