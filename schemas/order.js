@@ -28,6 +28,10 @@ const foodOrderSchema = new Schema(
       type: Number,
       required: true,
     },
+    address: {
+      type: String,     // <-- ADD THIS
+      required: true,   // <-- ADD THIS
+    },
     foodOrderItems: {
       type: [foodOrderItemSchema],
       required: true,
@@ -44,4 +48,4 @@ const foodOrderSchema = new Schema(
   },
 );
 
-export const FoodOrder = mongoose.model("FoodOrder", foodOrderSchema);
+export const FoodOrder = mongoose.models.FoodOrder || mongoose.model("FoodOrder", foodOrderSchema);

@@ -2,17 +2,20 @@ import { FoodOrder } from "../../schemas/order-schema.js";
 
 export const foodOrderControllerCreate = async (request, response) => {
   try {
-    const { user, totalPrice, foodOrderItems, status } = request.body;
+    const { user, totalPrice, address, foodOrderItems, status } = request.body;
 
     const order = await FoodOrder.create({
       user,
       totalPrice,
+      address, 
       foodOrderItems,
       status,
     });
 
     response.status(201).json({ message: "Order Created", order: order });
   } catch (err) {
+    
+    console.error("Order creation failed:", err); 
     response
       .status(500)
       .json({ message: "Internal Server Error", error: err.message });
@@ -22,8 +25,10 @@ export const foodOrderControllerCreate = async (request, response) => {
 export const foodOrderControllerReadAll = async (request, response) => {
   try {
     const orders = await FoodOrder.find()
-      .populate("user", "email phoneNumber address")
-      .populate("foodOrderItems.food", "name price image");
+      
+      .populate("user", "email role") 
+      
+      .populate("foodOrderItems.food", "foodName price image"); 
 
     response.status(200).json({
       message: "Orders read successfully",
