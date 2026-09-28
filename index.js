@@ -5,6 +5,7 @@ import { connectDB } from "./connectDB.js";
 import authRouter from "./router/auth/auth.js";
 import foodCategoryRouter from "./router/foodCategory/foodCategory.js";
 import dishesRouter from "./router/dishes/dishes.js";
+import orderRouter from "./router/order/order.js"; // Fixed import name
 import cors from "cors";
 
 const app = express();
@@ -16,6 +17,8 @@ connectDB();
 app.use("/auth", authRouter);
 app.use("/foodCategory", foodCategoryRouter);
 app.use("/dishes", dishesRouter);
+app.use("/order", orderRouter); // Matches the import
+
 app.listen(PORT, () => {
   console.log(`Hello world from server ${PORT}`);
 });
