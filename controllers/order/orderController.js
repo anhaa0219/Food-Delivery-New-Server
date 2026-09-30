@@ -1,4 +1,4 @@
-import { FoodOrder } from "../../schemas/order-schema.js";
+import { FoodOrder } from "../../schemas/order.js";
 
 export const foodOrderControllerCreate = async (request, response) => {
   try {
@@ -7,35 +7,14 @@ export const foodOrderControllerCreate = async (request, response) => {
     const order = await FoodOrder.create({
       user,
       totalPrice,
-      address, 
+      address,
       foodOrderItems,
       status,
     });
 
     response.status(201).json({ message: "Order Created", order: order });
   } catch (err) {
-    
-    console.error("Order creation failed:", err); 
-    response
-      .status(500)
-      .json({ message: "Internal Server Error", error: err.message });
-  }
-};
-
-export const foodOrderControllerReadAll = async (request, response) => {
-  try {
-    const orders = await FoodOrder.find()
-      
-      .populate("user", "email role") 
-      
-      .populate("foodOrderItems.food", "foodName price image"); 
-
-    response.status(200).json({
-      message: "Orders read successfully",
-      orders: orders,
-    });
-  } catch (err) {
-    console.error(err);
+    console.error("Order creation failed:", err);
     response
       .status(500)
       .json({ message: "Internal Server Error", error: err.message });
